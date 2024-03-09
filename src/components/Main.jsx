@@ -5,14 +5,15 @@ import { Alert, StyleSheet, Text, View,TouchableNativeFeedback, ImageBackgroundB
 import RequestsList from "./requestsList.jsx";
 import { ImageBackground } from "react-native";
 import {BlurView} from '@react-native-community/blur';
-
+import CustomAppBar from "./AppBar.jsx";
 
 
 const Main = () => {
   return (
-    <ImageBackground source={require('../../assets/coffee.jpg')} style={{flex:1, resizeMode: "cover", justifyContent: "center", marginTop:45, opacity: 0.95, }}>
-    <View style={{marginTop:Constants.statusBarHeight,flexGrow:1,opacity:0.1}}>
-        <RequestsList/>
+    <ImageBackground source={require('../../assets/coffee.jpg')} style={{flex:1, resizeMode: "cover", justifyContent: "center", marginTop:45}}>
+    <View style={{flexGrow:1}}>
+      <RequestsList/>
+      <CustomAppBar/>
     </View>
     </ImageBackground>
   );

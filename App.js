@@ -1,13 +1,13 @@
 import React from 'react';
-// import Main from './src/components/Main.jsx';
+import Main from './src/components/Main.jsx';
 import {TestComponentCard} from "./src/TestComponentCard";
 import Constants from 'expo-constants';
 import {View, Text} from "react-native";
 import Icon from 'react-native-vector-icons/Feather';
 
 export default function App() {
-    // return <Main />
-    return (
+    return <Main />
+    /*return (
         <View style={{
             flex: 1,
             marginTop: Constants.statusBarHeight,
@@ -33,6 +33,6 @@ export default function App() {
                 <TestComponentCard company={'Starbucks'} process={'Finalizado'} supply={'Café claro'} quantity={10}/>
             </View>
         </View>
-    )
+    )*/
 };
 
