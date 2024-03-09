@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
-import { useNavigation } from '@react-navigation/native';
-
+import {TestComponentCard} from "./src/TestComponentCard";
+import Constants from 'expo-constants';
 
 export const Orders = () => {
+    
     return (
         <View style={{
         flex: 1,
@@ -33,3 +33,5 @@ export const Orders = () => {
         </View>
     )
     };
+
+export default Orders;
