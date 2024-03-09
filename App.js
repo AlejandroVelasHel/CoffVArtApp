@@ -3,7 +3,6 @@ import React from 'react';
 import {TestComponentCard} from "./src/TestComponentCard";
 import Constants from 'expo-constants';
 import {View, Text} from "react-native";
-import Icon from 'react-native-vector-icons/Feather';
 
 export default function App() {
     // return <Main />
