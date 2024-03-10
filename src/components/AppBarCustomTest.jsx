@@ -69,6 +69,20 @@ export const AppBarTest = ({navigation}) => {
                     }}>Producción</Text>
                 </View>
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+                navigation.navigate('Pedidos')
+            }}>
+                <View style={{
+                    alignItems: 'center',
+                }}>
+                    <Icon name={'briefcase'} size={20} color={'white'}/>
+                    <Text style={{
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: 10,
+                    }}>Pedidos</Text>
+                </View>
+            </TouchableOpacity>
         </View>
     )
 }
