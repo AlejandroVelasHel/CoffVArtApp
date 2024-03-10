@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
-import { Alert, StyleSheet, Text, View,TouchableNativeFeedback, ImageBackgroundBase } from 'react-native';
-import CustomAppBar from "../components/AppBar.jsx";
-import {Main } from "../screens/Main.jsx";
-
-const Main = () => {
+import {View, StyleSheet } from 'react-native';
+import CustomAppBar  from "../components/AppBar";
+export const Main = () => {
   return (
-    
-    <View style={styles.container}>
+    <View >
       <CustomAppBar/>
     </View>
   );
