@@ -1,5 +1,5 @@
 import {View, Text, Image} from "react-native";
-import {StateTag} from "./components/StateTag";
+import {StateTag} from "./StateTag";
 import moment from "moment";
 
 export const TestComponentCard = ({
