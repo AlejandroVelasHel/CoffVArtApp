@@ -1,13 +1,15 @@
-import {View, Text, Image} from "react-native";
+import {View, Text, Image, StyleSheet} from "react-native";
 import {StateTag} from "./StateTag";
 import moment from "moment";
+import { statesTable } from "../utils/stateTable";
 
 export const TestComponentCard = ({
                                       supply,
                                       quantity,
                                       company,
                                       process,
-                                      date
+                                      date,
+                                      number
                                   }) => {
 
     moment.locale('es', {
@@ -34,7 +36,38 @@ export const TestComponentCard = ({
             y: 'un año',
             yy: '%d años'
         }
+        
     })
+    const styles = StyleSheet.create({
+        blue: {
+            backgroundColor: "rgba(27, 168, 242, 0.3)",
+            color: '#1BA8F2'
+        },
+        green: {
+            backgroundColor: "rgba(46, 213, 115, 0.3)",
+            color: '#2ed573'
+        },
+        red: {
+            backgroundColor: "rgba(255, 71, 87, 0.3)",
+            color: '#ff4757'
+        },
+        orange: {
+            backgroundColor: "rgba(255, 159, 67, 0.3)",
+            color: '#ff9f43'
+        },
+    })
+    const stylesConditional = (process) => {
+        if(statesTable.blue.includes(process?.toUpperCase())) {
+            return styles.blue;
+        } else if(statesTable.green.includes(process?.toUpperCase())) {
+            return styles.green;
+        } else if(statesTable.red.includes(process?.toUpperCase())) {
+            return styles.red;
+        } else if(statesTable.orange.includes(process?.toUpperCase())) {
+            return styles.orange;
+        }
+    }
+    
     return (
         <View style={{
             backgroundColor: "#f5f6fa",
@@ -75,7 +108,7 @@ export const TestComponentCard = ({
                     }}/>
             </View>
             <View style={{
-                flex: 1
+                flex: 1,
             }}>
                 <View style={{
                     flexDirection: "row",
@@ -128,8 +161,28 @@ export const TestComponentCard = ({
                             fontWeight: '300'
                         }}>Compañía</Text>
                     </View>
+                    <View style={{
+                        justifyContent: "flex-end",
+                        alignItems: "center",
+                        marginLeft: "auto",
+                    }}>
+                        <Text style={{
+                            fontSize: 12,
+                            color: stylesConditional(process).color,
+                            fontWeight: '600'
+                        }}>
+                            {number}
+                            </Text>
+                        <Text style={{
+                            fontSize: 10,
+                            color: "#333333",
+                            fontWeight: '300'
+                        }}>Nro</Text>
+                    </View>
                 </View>
             </View>
         </View>
+
     )
+
 }
