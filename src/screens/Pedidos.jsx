@@ -12,6 +12,7 @@ import { OrderCard } from "../components/ComponentOrders";
 
 export const GetOrders = ({navigation}) => {
     const {data, loading, error, get, del} = useFetch(API_URL);
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
 
     useEffect(() => {
         get(`orders?apikey=${API_KEY}`);
@@ -27,6 +28,7 @@ export const GetOrders = ({navigation}) => {
     
                 return {
                     ...order,
+                    id: order?.id,
                     code: order?.code,
                     total: order?.total,
                     state: order?.state,
@@ -40,6 +42,10 @@ export const GetOrders = ({navigation}) => {
             setDataOrdersModify(newOrdersData);
         }
     }, [data]);
+
+    const handleOrderPress = (orderId) => {
+        setSelectedOrderId(orderId);
+    };
     
     return(
         <View style={{
@@ -64,6 +70,7 @@ export const GetOrders = ({navigation}) => {
                 data={dataOrdersModify}
                 renderItem={({item: order}) => (
                     <OrderCard
+                        id={order.id}
                         code={order.code}
                         total={order.total}
                         state={order.state}
@@ -71,9 +78,11 @@ export const GetOrders = ({navigation}) => {
                         product={order.product}
                         quantity={order.quantity}
                         value={order.value}
+                        onPress={()=>handleOrderPress(order.id)}
+                        
                     />
                 )}
-                keyExtractor={(order) => order.code}
+                keyExtractor={(order) => order.id}
             />
             </View>
             <View style={{
