@@ -1,9 +1,16 @@
-import {View, Text, Image, StyleSheet} from "react-native";
+import {View, Text, Image, StyleSheet, TouchableOpacity, Modal, Button} from "react-native";
 import {StateTag} from "./StateTag";
 import moment from "moment";
+import {useFetch} from "../../hooks/useFetch";
+import {API_URL, API_KEY} from "../../data/api";
 import { statesTable } from "../utils/stateTable";
+import { Picker } from '@react-native-picker/picker';
+import React, { useState , useEffect} from "react";
+import CustomButton from "./CustomButton";
+import { center } from "@shopify/react-native-skia";
+import CustomButtonA from "./CustomButton copy";
 
-export const TestComponentCard = ({
+export const TestComponentCard = ({ id,
                                       supply,
                                       quantity,
                                       company,
@@ -11,8 +18,9 @@ export const TestComponentCard = ({
                                       date,
                                       number
                                   }) => {
+ 
 
-    moment.locale('es', {
+     moment.locale('es', {
         months: [
             "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
             "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
@@ -35,9 +43,58 @@ export const TestComponentCard = ({
             MM: '%d meses',
             y: 'un año',
             yy: '%d años'
+        }});
+    const [selectedProcess, setSelectedProcess] = useState(null);
+    const [orderProcess, setOrderProcess] = useState(process);
+    const [modalVisible, setModalVisible] = useState(false);
+    const { data: processData, get: getProcess } = useFetch(API_URL);
+    const { data, loading, error: errorFetch, get, put } = useFetch(API_URL);
+    const [processes, setProcesses] = useState([]);
+
+    useEffect(() => {
+        get(`productionRequests/${id}?apikey=${API_KEY}`);
+        getProcess(`processes?apikey=${API_KEY}`);
+    }, []);
+
+    useEffect(() => {
+        if (processData?.processes?.rows) {
+            const processOptions = processData?.processes?.rows.map((process) => ({
+                label: process.name,
+                value: process.id,
+            }));
+            setProcesses(processOptions);
         }
-        
-    })
+    }, [processData]);
+
+
+    const handlePress = (process) => {
+        setSelectedProcess(process);
+        setModalVisible(true);
+    };
+
+
+    const handleAccept = async () => {
+        try {
+            const response = await put(`productionRequests/${id}?apikey=${API_KEY}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    process: selectedProcess,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al actualizar el proceso');
+            }
+
+            setOrderProcess(selectedProcess);
+            setModalVisible(false);
+        } catch (error) {
+            console.error('Error al actualizar el proceso:', error);
+        }
+    };     
     const styles = StyleSheet.create({
         blue: {
             backgroundColor: "rgba(27, 168, 242, 0.3)",
@@ -55,20 +112,43 @@ export const TestComponentCard = ({
             backgroundColor: "rgba(255, 159, 67, 0.3)",
             color: '#ff9f43'
         },
+        modalContainer: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+          },
+          modalContent: {
+            backgroundColor: 'rgba(299, 299, 299, 0.9)',
+            padding: 20,
+            borderRadius: 10,
+            elevation: 5,
+          },
+          input: {
+            height: 40,
+            borderColor: 'gray',
+            borderWidth: 1,
+            marginBottom: 10,
+            paddingHorizontal: 10,
+          },
     })
     const stylesConditional = (process) => {
-        if(statesTable.blue.includes(process?.toUpperCase())) {
+        const style = styles.red;
+        if(process){
+            if(statesTable.blue.includes(process.toUpperCase())) {
             return styles.blue;
-        } else if(statesTable.green.includes(process?.toUpperCase())) {
+        } else if(statesTable.green.includes(process.toUpperCase())) {
             return styles.green;
-        } else if(statesTable.red.includes(process?.toUpperCase())) {
+        } else if(statesTable.red.includes(process.toUpperCase())) {
             return styles.red;
-        } else if(statesTable.orange.includes(process?.toUpperCase())) {
+        } else if(statesTable.orange.includes(process.toUpperCase())) {
             return styles.orange;
-        }
+        }}
+        return style;
     }
     
     return (
+        <TouchableOpacity onPress={() => handlePress(process)}>
         <View style={{
             backgroundColor: "#f5f6fa",
             padding: 10,
@@ -181,8 +261,35 @@ export const TestComponentCard = ({
                     </View>
                 </View>
             </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                setModalVisible(!modalVisible);
+        }}
+    >
+        <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: "center" }}>
+                    Cambiar Proceso
+                </Text>
+                <Picker
+                    selectedValue={selectedProcess}
+                    onValueChange={(itemValue) => setSelectedProcess(itemValue)}
+                    style = {{marginBottom: 20, height: 50, width: 150, alignSelf: "center", borderRadius:10 }}
+                >
+                    {processes.map((process) => (
+                        <Picker.Item style={{fontWeight: "bold", fontSize: 15}} key={process.value} label={process.label} value={process.value} />
+                    ))}
+                </Picker>
+                <CustomButtonA title="Aceptar" onPress={handleAccept} />
+                <CustomButton title="Cancelar" onPress={() => setModalVisible(false)}/>
+            </View>
         </View>
-
+    </Modal>    
+        </View>
+    </TouchableOpacity>
     )
 
 }
