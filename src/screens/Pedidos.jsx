@@ -46,6 +46,12 @@ export const GetOrders = ({navigation}) => {
     const handleOrderPress = (orderId) => {
         setSelectedOrderId(orderId);
     };
+    const handleUpdateOrderState = () => {
+        console.log("update order state");
+        get(`orders?apikey=${API_KEY}`)
+            console.log("Datos actualizados:", data);
+            setDataOrdersModify(data);
+    };
     
     return(
         <View style={{
@@ -79,6 +85,7 @@ export const GetOrders = ({navigation}) => {
                         quantity={order.quantity}
                         value={order.value}
                         onPress={()=>handleOrderPress(order.id)}
+                        updateOrderState={handleUpdateOrderState}
                         
                     />
                 )}

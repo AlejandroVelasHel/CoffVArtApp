@@ -17,12 +17,14 @@ export const OrderCard = ({
   quantity,
   value,
   date,
-  onPress
+  onPress,
+  updateOrderState
 }) => {
   const [orderState, setOrderState] = useState(state);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedState, setSelectedState] = useState(orderState);
   const {data, loading, error: errorFetch, get, put} = useFetch(API_URL)
+
 
 
   moment.locale("es", {
@@ -67,6 +69,8 @@ export const OrderCard = ({
       console.log("se actualizo el estado")
       setOrderState(selectedState);
       setModalVisible(false);
+      updateOrderState();
+
     }else{
       console.error("Error al actualizar el estado:", errorFetch);
     }
