@@ -12,6 +12,7 @@ import {BlurBackgroundSpheres} from "../components/BlurBackgroundSpheres";
 
 export const Orders = ({navigation}) => {
     const {data, get} = useFetch(API_URL);
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
     useEffect(() => {
         get(`productionOrders?apikey=${API_KEY}`);
     }, []);
@@ -33,6 +34,9 @@ export const Orders = ({navigation}) => {
             setDataProductionOrdersModify(newProductionOrdersData)
         }
     }, [data]);
+    const handleOrderPress = (id) => {
+        setSelectedOrderId(id);
+    };
     const styles = StyleSheet.create({
         cardContent: {
             flexDirection: "row",
@@ -92,12 +96,12 @@ export const Orders = ({navigation}) => {
             data={dataProductionOrdersModify}
 
             renderItem={({item: order}) => (
-                <Card style ={{marginBottom:5, backgroundColor: "white", borderRadius:30}}>
+                <Card style ={{marginBottom:5, backgroundColor: "white", borderRadius:30}} onPress={()=>handleOrderPress(order.id)}>
                         <View style={{
                 padding: 10,
                 gap: 10,
             }}>
-                <TestComponentCard number={order.id} process={order.process} supply={order.supplie} quantity={order.quantity}/>                    
+                <TestComponentCard number={order.id} process={order.process} supply={order.supplie} quantity={order.quantity} />                    
             </View>
 
                     </Card>

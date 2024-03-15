@@ -126,47 +126,7 @@ export const RequestsList = ({navigation}) => {
 
         </View>
     );
-    /*return (
-        <View style={{flex: 1, padding: 5}}>
-            <FlatList
-                data={dataProductionRequestsModify}
-                renderItem={({item: request}) => (
-                    <Card>
-                        <View style={styles.cardContent}>
-                            <View style={styles.cardContent}>
-                                <Text style={styles.cardTitle}>#{request.id}</Text>
-                            </View>
-                            <View style={{flex: 1, flexDirection: "column", flexWrap: "wrap"}}>
-
-                                <Text style={styles.cardLabel}>Insumo:</Text>
-
-                                <Text style={styles.cardLabel}>Compañía:</Text>
-
-                                <Text style={styles.cardLabel}>Fecha de envío:</Text>
-
-                                <Text style={styles.cardLabel}>Proceso:</Text>
-
-                            </View>
-
-
-                            <View style={{flex: 1, flexDirection: "column", flexWrap: "wrap"}}>
-
-                                <Text style={styles.cardText}>{request.id}</Text>
-                                <Text style={styles.cardText}>{request.supplie}</Text>
-
-                                <Text style={styles.cardText}>{request.company}</Text>
-
-                                <Text style={styles.cardText}>{request.dateOfDispatch}</Text>
-
-                                <Text style={styles.cardText}>{request.process}</Text>
-                            </View>
-                        </View>
-
-                    </Card>
-                )}
-            />
-        </View>
-    );*/
+    
 };
 
 export default RequestsList;
