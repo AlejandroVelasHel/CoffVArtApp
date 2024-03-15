@@ -4,9 +4,14 @@ import {useEffect} from "react";
 import {useFetch} from "../../hooks/useFetch";
 import {API_URL, API_KEY} from "../../data/api";
 import {Card} from "react-native-paper";
+import {TestComponentCard} from "../components/TestComponentCard";
+import Constants from 'expo-constants';
+import {AppBarTest} from "../components/AppBarCustomTest";
+import {GradientBackground} from "../components/GradientBackground";
+import {BlurBackgroundSpheres} from "../components/BlurBackgroundSpheres";
 
-const RequestsList = () => {
-    const {data, loading, error, get, del} = useFetch(API_URL);
+export const RequestsList = ({navigation}) => {
+    const {data, get} = useFetch(API_URL);
     useEffect(() => {
         get(`productionRequests?apikey=${API_KEY}`);
     }, []);
@@ -15,17 +20,19 @@ const RequestsList = () => {
     useEffect(() => {
         if (data?.ProductionRequests?.rows) {
             console.log('Entra')
-            const newProductionRequestsData = data?.ProductionRequests?.rows.map((productionRequest: any) => {
+            const newProductionRequestsData = data?.ProductionRequests?.rows.map((productionRequest) => {
                 return {
                     ...productionRequest,
+                    id: productionRequest?.id,
                     supplie: productionRequest?.supply?.name,
                     company: productionRequest?.company?.name,
+                    quantity:productionRequest?.quantity,
                     process: productionRequest?.process?.name,
+                    
                     dateOfDispatch: productionRequest.dateOfDispatch.substring(0, 10),
 
                 }
             })
-
             setDataProductionRequestsModify(newProductionRequestsData)
         }
     }, [data]);
@@ -61,6 +68,65 @@ const RequestsList = () => {
         }
     });
     return (
+        
+        <View style={{
+            flex: 1,
+            marginTop: Constants.statusBarHeight,
+            backgroundColor: "#f5f5f5",
+        }}>
+            <Text style={{
+                fontWeight: "300",
+                fontSize: 24,
+                margin: 5,
+                color: "#333",
+                textAlign: "center"
+            }}>
+                Solicitudes de producción
+            </Text>
+            
+            <View style={{
+                padding: 10,
+                gap: 10,
+                backgroundColor: 'white',
+                marginBottom: 60,
+            }}><BlurBackgroundSpheres/>
+                <FlatList 
+
+            data={dataProductionRequestsModify}
+
+            renderItem={({item: request}) => (
+                <Card style ={{marginBottom:5, backgroundColor: "white", borderRadius:30}}>
+                        <View style={{
+                padding: 10,
+                gap: 10,
+            }}>
+                <TestComponentCard number={request.id} company={request.company} process={request.process} supply={request.supplie} quantity={request.quantity}
+                                   date={request.dateOfDispatch}/>                    
+            </View>
+
+                    </Card>
+            )}  
+        />
+                
+            </View>
+   
+            
+            <View style={{
+                width: '100%',
+                position: 'absolute',
+                bottom: 0,
+                paddingHorizontal: 10,
+                paddingVertical: 10,
+
+            }}>
+
+                <AppBarTest navigation={navigation}/>
+
+            </View>
+
+        </View>
+    );
+    /*return (
         <View style={{flex: 1, padding: 5}}>
             <FlatList
                 data={dataProductionRequestsModify}
@@ -100,6 +166,7 @@ const RequestsList = () => {
                 )}
             />
         </View>
-    );
+    );*/
 };
+
 export default RequestsList;
