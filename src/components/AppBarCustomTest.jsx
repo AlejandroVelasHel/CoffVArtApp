@@ -41,6 +41,21 @@ export const AppBarTest = ({navigation}) => {
                     }}>Ventas</Text>
                 </View>
             </TouchableOpacity>
+            
+            <TouchableOpacity onPress={() => {
+                navigation.navigate('requestList')
+            }}>
+                <View style={{
+                    alignItems: 'center',
+                }}>
+                    <Icon name={'briefcase'} size={20} color={'white'}/>
+                    <Text style={{
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: 10,
+                    }}>Solicitudes</Text>
+                </View>
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => {
                 navigation.navigate('Ordenes')
             }}>
@@ -53,20 +68,6 @@ export const AppBarTest = ({navigation}) => {
                         fontWeight: 'bold',
                         fontSize: 10,
                     }}>Ordenes</Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => {
-                navigation.navigate('Production')
-            }}>
-                <View style={{
-                    alignItems: 'center',
-                }}>
-                    <Icon name={'briefcase'} size={20} color={'white'}/>
-                    <Text style={{
-                        color: 'white',
-                        fontWeight: 'bold',
-                        fontSize: 10,
-                    }}>Producción</Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {
