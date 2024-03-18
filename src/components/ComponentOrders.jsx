@@ -24,6 +24,7 @@ export const OrderCard = ({
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedState, setSelectedState] = useState(orderState);
   const {data, loading, error: errorFetch, get, put} = useFetch(API_URL)
+  const [errorMessage, setErrorMessage] = useState('');
 
 
   moment.locale("es", {
@@ -57,6 +58,12 @@ export const OrderCard = ({
   };
 
   const handleAccept = () => {
+    if (orderState === 'Entregado') {
+      if (selectedState === 'Enviado' || selectedState === 'Pendiente') {
+        setErrorMessage('No puedes cambiar a Enviado o Pendiente si el estado actual es Entregado');
+        return;
+      }
+    }
     try{
     const request ={
       state: selectedState
@@ -230,7 +237,11 @@ export const OrderCard = ({
                 <Picker.Item label="Enviado" value="Enviado" />
                 <Picker.Item label="Entregado" value="Entregado"/>
               </Picker>
+              <Text style={styles.errorMessage}>{errorMessage}</Text>
               <Button title="Aceptar" onPress={handleAccept} />
+              <Button title="Cancelar" onPress={() => setModalVisible(false)} />
+
+
             </View>
           </View>
         </Modal>
