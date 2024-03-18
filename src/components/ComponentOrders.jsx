@@ -26,7 +26,6 @@ export const OrderCard = ({
   const {data, loading, error: errorFetch, get, put} = useFetch(API_URL)
 
 
-
   moment.locale("es", {
     months: [
       "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
@@ -227,9 +226,9 @@ export const OrderCard = ({
                 selectedValue={selectedState}
                 onValueChange={(itemValue) => setSelectedState(itemValue)}
               >
-                <Picker.Item label="Pendiente" value="pendiente" />
-                <Picker.Item label="Enviado" value="enviado" />
-                <Picker.Item label="Entregado" value="entregado"/>
+                <Picker.Item label="Pendiente" value="Pendiente" />
+                <Picker.Item label="Enviado" value="Enviado" />
+                <Picker.Item label="Entregado" value="Entregado"/>
               </Picker>
               <Button title="Aceptar" onPress={handleAccept} />
             </View>
