@@ -55,6 +55,38 @@ export const GetOrders = ({navigation}) => {
             console.log("Datos actualizados:", data);
             setDataOrdersModify(data);
     };
+
+    const styles = StyleSheet.create({
+      cardContent: {
+          flexDirection: "row",
+          padding: 10,
+          backgroundColor: 'rgba(243, 231, 215, 0.1)',
+          borderRadius: 20,
+          backDropFilter: "blur(10px)",
+      },
+      cardText: {
+          fontSize: 14,
+          marginBottom: 1,
+          padding: 2,
+          marginLeft: 30,
+          color: "black"
+      },
+      cardLabel: {
+          fontWeight: "bold",
+          fontSize: 17,
+          marginBottom: 9,
+          marginLeft: 10,
+          color: "#deb887"
+      },
+      cardTitle: {
+          fontSize: 25,
+          fontWeight: "bold",
+          marginLeft: 0,
+          marginTop: 30,
+          marginRight: 10,
+          color: "red",
+      }
+  });
     
     return (
         <View style={{
@@ -76,12 +108,15 @@ export const GetOrders = ({navigation}) => {
             gap: 10,
             backgroundColor: 'white',
             marginBottom: 60,
-          }}>
-            <BlurBackgroundSpheres />
+          }}><BlurBackgroundSpheres />
             <FlatList
               data={dataOrdersModify}
               renderItem={({ item: order }) => (
                 <Card style={{ marginBottom: 5, backgroundColor: "white", borderRadius: 30 }}>
+                  <View style={{
+                    padding: 10,
+                    gap: 10,
+                  }}>
                   <OrderCard
                     id={order.id}
                     code={order.code}
@@ -94,6 +129,7 @@ export const GetOrders = ({navigation}) => {
                     onPress={() => handleOrderPress(order.id)}
                     updateOrderState={handleUpdateOrderState}
                   />
+                  </View>
                 </Card>
               )}
               keyExtractor={(order) => order.id}
