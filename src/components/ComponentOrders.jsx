@@ -5,6 +5,10 @@ import moment from "moment";
 import {useFetch} from "../../hooks/useFetch";
 import {API_URL, API_KEY} from "../../data/api";
 import { Picker } from '@react-native-picker/picker';
+import CustomButton from "./CustomButton";
+import CustomButtonA from "./CustomButton copy";
+
+
 
 
 export const OrderCard = ({
@@ -84,6 +88,43 @@ export const OrderCard = ({
     console.error("Error en la operación:", error);
   }
   };
+  const styles = StyleSheet.create({
+    blue: {
+        backgroundColor: "rgba(27, 168, 242, 0.3)",
+        color: '#1BA8F2'
+    },
+    green: {
+        backgroundColor: "rgba(46, 213, 115, 0.3)",
+        color: '#2ed573'
+    },
+    red: {
+        backgroundColor: "rgba(255, 71, 87, 0.3)",
+        color: '#ff4757'
+    },
+    orange: {
+        backgroundColor: "rgba(255, 159, 67, 0.3)",
+        color: '#ff9f43'
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+      },
+      modalContent: {
+        backgroundColor: 'rgba(299, 299, 299, 0.9)',
+        padding: 20,
+        borderRadius: 10,
+        elevation: 5,
+      },
+      input: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginBottom: 10,
+        paddingHorizontal: 10,
+      },
+})
 
   return (
     <TouchableOpacity onPress={handlePress}>
@@ -238,8 +279,8 @@ export const OrderCard = ({
                 <Picker.Item label="Entregado" value="Entregado"/>
               </Picker>
               <Text style={styles.errorMessage}>{errorMessage}</Text>
-              <Button title="Aceptar" onPress={handleAccept} />
-              <Button title="Cancelar" onPress={() => setModalVisible(false)} />
+              <CustomButtonA title="Aceptar" onPress={handleAccept} />
+              <CustomButton title="Cancelar" onPress={() => setModalVisible(false)} />
 
 
             </View>
