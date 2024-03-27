@@ -27,20 +27,6 @@ export const AppBarTest = ({navigation}) => {
                     }}>Inicio</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {
-                navigation.navigate('Ventas')
-            }}>
-                <View style={{
-                    alignItems: 'center',
-                }}>
-                    <Icon name={'shopping-bag'} size={20} color={'white'}/>
-                    <Text style={{
-                        color: 'white',
-                        fontWeight: 'bold',
-                        fontSize: 10,
-                    }}>Ventas</Text>
-                </View>
-            </TouchableOpacity>
             
             <TouchableOpacity onPress={() => {
                 navigation.navigate('requestList')

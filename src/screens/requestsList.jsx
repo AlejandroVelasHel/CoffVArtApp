@@ -12,9 +12,11 @@ import {BlurBackgroundSpheres} from "../components/BlurBackgroundSpheres";
 
 export const RequestsList = ({navigation}) => {
     const {data, get} = useFetch(API_URL);
+    const [dataProductionRequestsModifyProcess, setDataProductionRequestsModifyProcess] = useState([false]);
     useEffect(() => {
         get(`productionRequests?apikey=${API_KEY}`);
-    }, []);
+    }, [dataProductionRequestsModifyProcess]);
+
     const [dataProductionRequestsModify, setDataProductionRequestsModify] = useState([]);
 
     useEffect(() => {
@@ -67,6 +69,7 @@ export const RequestsList = ({navigation}) => {
             color: "red",
         }
     });
+
     return (
         
         <View style={{
@@ -101,7 +104,7 @@ export const RequestsList = ({navigation}) => {
                 gap: 10,
             }}>
                 <TestComponentCard number={request.id} company={request.company} process={request.process} supply={request.supplie} quantity={request.quantity}
-                                   date={request.dateOfDispatch}/>                    
+                                   date={request.dateOfDispatch} setDataProductionRequestsModifyProcess={setDataProductionRequestsModifyProcess}/>                    
             </View>
 
                     </Card>

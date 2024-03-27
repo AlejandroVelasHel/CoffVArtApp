@@ -1,4 +1,4 @@
-import {View, Text, Image, StyleSheet, TouchableOpacity, Modal, Button} from "react-native";
+import {View, Text, Image, StyleSheet, TouchableOpacity, Modal, Button, TextInput} from "react-native";
 import {StateTag} from "./StateTag";
 import moment from "moment";
 import {useFetch} from "../../hooks/useFetch";
@@ -10,13 +10,14 @@ import CustomButton from "./CustomButton";
 import { center } from "@shopify/react-native-skia";
 import CustomButtonA from "./CustomButton copy";
 
-export const TestComponentCard = ({ id,
+export const TestComponentCard = ({ 
                                       supply,
                                       quantity,
                                       company,
                                       process,
                                       date,
-                                      number
+                                      number,
+                                      setDataProductionRequestsModifyProcess,
                                   }) => {
  
 
@@ -44,6 +45,8 @@ export const TestComponentCard = ({ id,
             y: 'un año',
             yy: '%d años'
         }});
+        const [quantityModalVisible, setQuantityModalVisible] = useState(false);
+        const [receivedQuantity, setReceivedQuantity] = useState('');
     const [selectedProcess, setSelectedProcess] = useState(null);
     const [orderProcess, setOrderProcess] = useState(process);
     const [modalVisible, setModalVisible] = useState(false);
@@ -52,9 +55,13 @@ export const TestComponentCard = ({ id,
     const [processes, setProcesses] = useState([]);
 
     useEffect(() => {
-        get(`productionRequests/${id}?apikey=${API_KEY}`);
+        get(`productionRequests/${number}?apikey=${API_KEY}`);
+    }, []);
+    useEffect(() => {  
         getProcess(`processes?apikey=${API_KEY}`);
     }, []);
+
+
 
     useEffect(() => {
         if (processData?.processes?.rows) {
@@ -66,35 +73,39 @@ export const TestComponentCard = ({ id,
         }
     }, [processData]);
 
-
+    const handleOpenQuantityModal = () => {
+        setQuantityModalVisible(true);
+    }
+    const handleAcceptReceivedQuantity = async () => {
+        // Realiza cualquier acción necesaria con la cantidad recibida
+        console.log('Cantidad recibida:', receivedQuantity);
+    
+        // Cierra el modal
+        setQuantityModalVisible(false);
+    }
     const handlePress = (process) => {
         setSelectedProcess(process);
         setModalVisible(true);
-    };
-
-
-    const handleAccept = async () => {
-        try {
-            const response = await put(`productionRequests/${id}?apikey=${API_KEY}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    process: selectedProcess,
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Error al actualizar el proceso');
+    }
+        
+    handleAccept = async ()=> {
+        try{
+        put(`productionRequests/${number}?apikey=${API_KEY}`, {
+            processId: selectedProcess,
+            })
+            console.log(selectedProcess);
+            
+            if(selectedProcess !== 3){
+                setModalVisible(false);
+                 
             }
-
-            setOrderProcess(selectedProcess);
-            setModalVisible(false);
         } catch (error) {
-            console.error('Error al actualizar el proceso:', error);
+            console.log('Error al actualizar el proceso:', error);
         }
-    };     
+    }
+
+
+
     const styles = StyleSheet.create({
         blue: {
             backgroundColor: "rgba(27, 168, 242, 0.3)",
@@ -146,7 +157,15 @@ export const TestComponentCard = ({ id,
         }}
         return style;
     }
-    
+    useEffect(() => {
+        if (data.message==="Cantidad de insumo recibida correctamente") {
+             setDataProductionRequestsModifyProcess(prev=>!prev);  
+        }
+        console.log("data:",    data);
+    }
+    , [data]);
+        
+
     return (
         <TouchableOpacity onPress={() => handlePress(process)}>
         <View style={{
@@ -261,6 +280,30 @@ export const TestComponentCard = ({ id,
                     </View>
                 </View>
             </View>
+            <Modal
+    animationType="slide"
+    transparent={true}
+    visible={quantityModalVisible}
+    onRequestClose={() => {
+        setQuantityModalVisible(false);
+    }}
+>
+    <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: "center" }}>
+                Ingresar Cantidad Recibida
+            </Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Cantidad recibida"
+                value={receivedQuantity}
+                onChangeText={text => setReceivedQuantity(text)}
+            />
+            <CustomButtonA title="Aceptar" onPress={handleAcceptReceivedQuantity} />
+            <CustomButton title="Cancelar" onPress={() => setQuantityModalVisible(false)} />
+        </View>
+    </View>
+</Modal>
             <Modal
                 animationType="slide"
                 transparent={true}
