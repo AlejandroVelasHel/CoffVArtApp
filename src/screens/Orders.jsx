@@ -4,7 +4,7 @@ import {useEffect} from "react";
 import {useFetch} from "../../hooks/useFetch";
 import {API_URL, API_KEY} from "../../data/api";
 import {Card} from "react-native-paper";
-import {TestComponentCard} from "../components/TestComponentCard";
+import {TestComponentCardO} from "../components/TestComponentCardO";
 import Constants from 'expo-constants';
 import {AppBarTest} from "../components/AppBarCustomTest";
 import {GradientBackground} from "../components/GradientBackground";
@@ -13,9 +13,10 @@ import {BlurBackgroundSpheres} from "../components/BlurBackgroundSpheres";
 export const Orders = ({navigation}) => {
     const {data, get} = useFetch(API_URL);
     const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const [dataProductionOrdersModifyProcess, setDataProductionOrdersModifyProcess] = useState([false]);
     useEffect(() => {
         get(`productionOrders?apikey=${API_KEY}`);
-    }, []);
+    }, [dataProductionOrdersModifyProcess]);
     const [dataProductionOrdersModify, setDataProductionOrdersModify] = useState([]);
 
     useEffect(() => {
@@ -101,7 +102,7 @@ export const Orders = ({navigation}) => {
                 padding: 10,
                 gap: 10,
             }}>
-                <TestComponentCard number={order.id} process={order.process} supply={order.supplie} quantity={order.quantity} />                    
+                <TestComponentCardO number={order.id} process={order.process} supply={order.supplie} quantity={order.quantity} setDataProductionOrdersModifyProcess={setDataProductionOrdersModifyProcess} />                    
             </View>
 
                     </Card>

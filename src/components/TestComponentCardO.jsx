@@ -10,14 +10,12 @@ import CustomButton from "./CustomButton";
 import { center } from "@shopify/react-native-skia";
 import CustomButtonA from "./CustomButton copy";
 
-export const TestComponentCard = ({ 
+export const TestComponentCardO = ({ 
                                       supply,
                                       quantity,
-                                      company,
                                       process,
-                                      date,
                                       number,
-                                      setDataProductionRequestsModifyProcess,
+                                      setDataProductionOrdersModifyProcess,
                                   }) => {
  
 
@@ -55,7 +53,7 @@ export const TestComponentCard = ({
     const [processes, setProcesses] = useState([]);
 
     useEffect(() => {
-        get(`productionRequests/${number}?apikey=${API_KEY}`);
+        get(`productionOrders/${number}?apikey=${API_KEY}`);
     }, []);
     useEffect(() => {  
         getProcess(`processes?apikey=${API_KEY}`);
@@ -73,16 +71,6 @@ export const TestComponentCard = ({
         }
     }, [processData]);
 
-    const handleOpenQuantityModal = () => {
-        setQuantityModalVisible(true);
-    }
-    const handleAcceptReceivedQuantity = async () => {
-        // Realiza cualquier acción necesaria con la cantidad recibida
-        console.log('Cantidad recibida:', receivedQuantity);
-    
-        // Cierra el modal
-        setQuantityModalVisible(false);
-    }
     const handlePress = (process) => {
         setSelectedProcess(process);
         setModalVisible(true);
@@ -90,17 +78,13 @@ export const TestComponentCard = ({
         
     handleAccept = async ()=> {
         try{
-        put(`productionRequests/${number}?apikey=${API_KEY}`, {
+        put(`productionOrders/${number}?apikey=${API_KEY}`, {
             processId: selectedProcess,
             })
             console.log(selectedProcess);
             
-            if(selectedProcess == 3){
+            if(selectedProcess){
                 setModalVisible(false);
-                handleOpenQuantityModal;
-            } else {
-                setModalVisible(false);
-                 
             }
         } catch (error) {
             console.log('Error al actualizar el proceso:', error);
@@ -161,8 +145,8 @@ export const TestComponentCard = ({
         return style;
     }
     useEffect(() => {
-        if (data.message==="Cantidad de insumo recibida correctamente") {
-             setDataProductionRequestsModifyProcess(prev=>!prev);  
+        if (data.message==="proceso actualizado correctamente") {
+             setDataProductionOrdersModifyProcess(prev=>!prev);  
         }
         console.log("data:",    data);
     }
@@ -181,17 +165,6 @@ export const TestComponentCard = ({
             gap: 10,
             position: "relative",
         }}>
-            <Text style={{
-                position: "absolute",
-                top: 10,
-                right: 10,
-                fontSize: 12,
-                color: "#333333",
-                fontWeight: "bold",
-
-            }}>
-                {moment(date).fromNow()}
-            </Text>
             <View style={{
                 justifyContent: "center",
                 height: "100%",
@@ -247,23 +220,6 @@ export const TestComponentCard = ({
                         }}>Cantidad</Text>
                     </View>
                     <View style={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}>
-                        <Text style={{
-                            fontSize: 12,
-                            color: "#333333",
-                            fontWeight: '600'
-                        }}>
-                            {company}
-                        </Text>
-                        <Text style={{
-                            fontSize: 10,
-                            color: "#333333",
-                            fontWeight: '300'
-                        }}>Compañía</Text>
-                    </View>
-                    <View style={{
                         justifyContent: "flex-end",
                         alignItems: "center",
                         marginLeft: "auto",
@@ -283,30 +239,6 @@ export const TestComponentCard = ({
                     </View>
                 </View>
             </View>
-            <Modal
-    animationType="slide"
-    transparent={true}
-    visible={quantityModalVisible}
-    onRequestClose={() => {
-        setQuantityModalVisible(false);
-    }}
->
-    <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: "center" }}>
-                Ingresar Cantidad Recibida
-            </Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Cantidad recibida"
-                value={receivedQuantity}
-                onChangeText={text => setReceivedQuantity(text)}
-            />
-            <CustomButtonA title="Aceptar" onPress={handleAcceptReceivedQuantity} />
-            <CustomButton title="Cancelar" onPress={() => setQuantityModalVisible(false)} />
-        </View>
-    </View>
-</Modal>
             <Modal
                 animationType="slide"
                 transparent={true}

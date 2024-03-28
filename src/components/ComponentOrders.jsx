@@ -5,6 +5,8 @@ import moment from "moment";
 import {useFetch} from "../../hooks/useFetch";
 import {API_URL, API_KEY} from "../../data/api";
 import { Picker } from '@react-native-picker/picker';
+import CustomButtonA from "./CustomButton copy";
+import CustomButton from "./CustomButton";
 
 
 export const OrderCard = ({
@@ -238,8 +240,8 @@ export const OrderCard = ({
                 <Picker.Item label="Entregado" value="Entregado"/>
               </Picker>
               <Text style={styles.errorMessage}>{errorMessage}</Text>
-              <Button title="Aceptar" onPress={handleAccept} />
-              <Button title="Cancelar" onPress={() => setModalVisible(false)} />
+              <CustomButtonA title="Aceptar" onPress={handleAccept} />
+              <CustomButton title="Cancelar" onPress={() => setModalVisible(false)}/>
 
 
             </View>
